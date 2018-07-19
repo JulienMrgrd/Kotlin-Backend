@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 @SpringBootApplication
 class TodolistApiApplication
 
-fun main(args: Array<String>) {
-    SpringApplication.run(TodolistApiApplication::class.java, *args)
-}
+    fun main(args: Array<String>) {
+        SpringApplication.run(TodolistApiApplication::class.java, *args)
+    }
+
