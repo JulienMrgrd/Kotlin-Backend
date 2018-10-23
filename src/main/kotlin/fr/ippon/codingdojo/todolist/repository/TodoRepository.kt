@@ -1,17 +1,34 @@
 package fr.ippon.codingdojo.todolist.repository
 
 import fr.ippon.codingdojo.todolist.entity.Todo
-import org.springframework.data.jpa.repository.Modifying
-import org.springframework.data.jpa.repository.Query
-import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
-import javax.transaction.Transactional
+import java.util.*
 
 @Repository
-interface TodoRepository: CrudRepository<Todo, Long> {
+class TodoRepository: fr.ippon.codingdojo.todolist.repository.Repository<Todo> {
 
-    @Transactional
-    @Modifying
-    @Query("delete from Todo where id in :ids")
-    fun deleteByIds(ids: List<Long>)
+    override fun findById(id: UUID): Todo? = TodoListManager.get(id)
+
+    override fun deleteByIds(ids: List<UUID>) {
+        for (id in ids) {
+            TodoListManager.delete(id)
+        }
+    }
+
+    override fun save(todo: Todo): Todo {
+        TodoListManager.add(todo)
+        return todo
+    }
+
+    override fun update(todo: Todo): Todo {
+        TodoListManager.update(todo)
+        return todo
+    }
+
+    override fun findAll() = TodoListManager.getAll()
+
+    override fun deleteById(id: UUID) {
+        TodoListManager.delete(id)
+    }
+
 }
