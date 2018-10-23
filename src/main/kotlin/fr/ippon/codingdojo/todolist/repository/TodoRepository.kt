@@ -2,14 +2,13 @@ package fr.ippon.codingdojo.todolist.repository
 
 import fr.ippon.codingdojo.todolist.entity.Todo
 import org.springframework.stereotype.Repository
-import java.util.*
 
 @Repository
 class TodoRepository: fr.ippon.codingdojo.todolist.repository.Repository<Todo> {
 
-    override fun findById(id: UUID): Todo? = TodoListManager.get(id)
+    override fun findById(id: String): Todo? = TodoListManager.get(id)
 
-    override fun deleteByIds(ids: List<UUID>) {
+    override fun deleteByIds(ids: List<String>) {
         for (id in ids) {
             TodoListManager.delete(id)
         }
@@ -27,7 +26,7 @@ class TodoRepository: fr.ippon.codingdojo.todolist.repository.Repository<Todo> {
 
     override fun findAll() = TodoListManager.getAll()
 
-    override fun deleteById(id: UUID) {
+    override fun deleteById(id: String) {
         TodoListManager.delete(id)
     }
 

@@ -1,16 +1,14 @@
 package fr.ippon.codingdojo.todolist.repository
 
-import java.util.*
+interface Manager<Entity> {
 
-interface Manager<T> {
+    val list: MutableMap<String, Entity>
 
-    val list: MutableMap<UUID, T>
-
-    fun add(t: T): T
-    fun update(t: T)
-    fun get(id: UUID): T?
-    fun getAll(): List<T>
-    fun delete(id: UUID)
+    fun add(t: Entity): Entity
+    fun update(t: Entity)
+    fun get(id: String): Entity?
+    fun getAll(): List<Entity>
+    fun delete(id: String)
     fun deleteAll()
     fun count(): Int
     fun backup()

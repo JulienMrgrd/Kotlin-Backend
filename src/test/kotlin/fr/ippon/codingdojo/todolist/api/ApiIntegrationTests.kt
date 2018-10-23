@@ -2,9 +2,7 @@ package fr.ippon.codingdojo.todolist.api
 
 import fr.ippon.codingdojo.todolist.entity.Todo
 import fr.ippon.codingdojo.todolist.repository.TodoListManager
-import fr.ippon.codingdojo.todolist.uuid
 import org.assertj.core.api.Assertions
-import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,12 +22,12 @@ class ApiIntegrationTests {
     lateinit var restTemplate: TestRestTemplate
 
     init {
-        TodoListManager.add(Todo(uuid("991"), LocalDateTime.of(2012, 8, 17, 18, 47), "lala", "lala", false))
-        TodoListManager.add(Todo(uuid("992"), LocalDateTime.of(2014, 9, 17, 18, 47), "bibi", "bubu", true))
-        TodoListManager.add(Todo(uuid("993"), LocalDateTime.of(2016, 5, 17, 18, 47), "titi", "toto", false))
-        TodoListManager.add(Todo(uuid("994"), LocalDateTime.of(2018, 3, 17, 18, 47), "lala", "lala", true))
-        TodoListManager.add(Todo(uuid("995"), LocalDateTime.of(2017, 6, 17, 18, 47), "lala", "lala", false))
-        TodoListManager.add(Todo(uuid("996"), LocalDateTime.of(2015, 9, 17, 18, 47), "lala", "lala", false))
+        TodoListManager.add(Todo("991", LocalDateTime.of(2012, 8, 17, 18, 47), "lala", "lala", false))
+        TodoListManager.add(Todo("992", LocalDateTime.of(2014, 9, 17, 18, 47), "bibi", "bubu", true))
+        TodoListManager.add(Todo("993", LocalDateTime.of(2016, 5, 17, 18, 47), "titi", "toto", false))
+        TodoListManager.add(Todo("994", LocalDateTime.of(2018, 3, 17, 18, 47), "lala", "lala", true))
+        TodoListManager.add(Todo("995", LocalDateTime.of(2017, 6, 17, 18, 47), "lala", "lala", false))
+        TodoListManager.add(Todo("996", LocalDateTime.of(2015, 9, 17, 18, 47), "lala", "lala", false))
     }
 
     @Test
@@ -41,7 +39,7 @@ class ApiIntegrationTests {
     fun get_todolist() {
         val todolist = restTemplate.exchange("/todolist", HttpMethod.GET, null, object : ParameterizedTypeReference<List<Todo>>() {}).body
 
-        Assertions.assertThat(todolist?.map { it.id }).containsAll(listOf(uuid("991"), uuid("992")))
+        Assertions.assertThat(todolist?.map { it.id }).containsAll(listOf("991", "992"))
     }
 
     data class Todolist (val todolist: MutableList<Todo> = ArrayList())
@@ -50,7 +48,7 @@ class ApiIntegrationTests {
     fun find_one_todo() {
         val todo = restTemplate.getForObject("/todolist/991", Todo::class.java)
 
-        Assertions.assertThat(todo.id).isEqualTo(uuid("991"))
+        Assertions.assertThat(todo.id).isEqualTo("991")
         Assertions.assertThat(todo.done).isEqualTo(false)
     }
 

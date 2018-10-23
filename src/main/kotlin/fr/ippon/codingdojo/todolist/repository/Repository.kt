@@ -1,18 +1,16 @@
 package fr.ippon.codingdojo.todolist.repository
 
-import java.util.*
+interface Repository<Entity> {
 
-interface Repository<E> {
+    fun deleteByIds(ids: List<String>)
 
-    fun deleteByIds(ids: List<UUID>)
+    fun save(e: Entity): Entity
 
-    fun save(e: E): E
+    fun update(e: Entity): Entity
 
-    fun update(e: E): E
+    fun findById(id: String): Entity?
 
-    fun findById(id: UUID): E?
+    fun findAll(): List<Entity>
 
-    fun findAll(): List<E>
-
-    fun deleteById(id: UUID)
+    fun deleteById(id: String)
 }

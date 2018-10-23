@@ -7,7 +7,7 @@ import java.util.*
 object TodoListManager : Manager<Todo> {
     private const val fileName = "todo.list"
 
-    override val list: MutableMap<UUID, Todo> = HashMap()
+    override val list: MutableMap<String, Todo> = HashMap()
 
     override fun add(todo: Todo): Todo {
         list[todo.id] = todo
@@ -18,13 +18,13 @@ object TodoListManager : Manager<Todo> {
         list.replace(t.id, t)
     }
 
-    override fun get(id: UUID): Todo? = list[id]
+    override fun get(id: String): Todo? = list[id]
 
     override fun getAll(): List<Todo> {
         return ArrayList(list.values)
     }
 
-    override fun delete(id: UUID) {
+    override fun delete(id: String) {
         list.remove(id)
     }
 
@@ -45,7 +45,7 @@ object TodoListManager : Manager<Todo> {
 
                 when (restedList) {
                     //We can't use <String, String> because of type erasure
-                    is Map<*, *> -> restedList.forEach { (k, v) -> list[k as UUID] = v as Todo }
+                    is Map<*, *> -> restedList.forEach { (k, v) -> list[k as String] = v as Todo }
                     else -> println("Deserialization failed")
                 }
             }
