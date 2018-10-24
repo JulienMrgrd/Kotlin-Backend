@@ -4,9 +4,9 @@ interface Repository<Entity> {
 
     fun deleteByIds(ids: List<String>)
 
-    fun save(e: Entity): Entity
+    fun save(entity: Entity): Entity
 
-    fun update(e: Entity): Entity
+    fun update(entity: Entity): Entity?
 
     fun findById(id: String): Entity?
 

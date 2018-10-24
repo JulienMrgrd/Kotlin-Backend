@@ -11,11 +11,6 @@ class TodoEntityTests {
     @Test
     fun create_new() {
         val todo = Todo(title = "titre test", message = "message test")
-        assert(todo.id is String)
-        assert(todo.createdAt is LocalDateTime)
-        assert(todo.title is String)
-        assert(todo.message is String)
-        assert(todo.done is Boolean)
 
         assert(todo.title == "titre test")
         assert(todo.message == "message test")
@@ -26,12 +21,6 @@ class TodoEntityTests {
     fun for_mapping() {
         val d = LocalDateTime.of(2012, 8, 17, 18, 47)
         val todo = Todo(id = "1", createdAt = d, title = "titre test", message = "message test", done = true)
-
-        assert(todo.id is String)
-        assert(todo.createdAt is LocalDateTime)
-        assert(todo.title is String)
-        assert(todo.message is String)
-        assert(todo.done is Boolean)
 
         assert(todo.id == "1")
         assert(todo.createdAt == d)

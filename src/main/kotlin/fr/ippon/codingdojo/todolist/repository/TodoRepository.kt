@@ -1,10 +1,10 @@
 package fr.ippon.codingdojo.todolist.repository
 
 import fr.ippon.codingdojo.todolist.entity.Todo
-import org.springframework.stereotype.Repository
+import org.springframework.stereotype.Component
 
-@Repository
-class TodoRepository: fr.ippon.codingdojo.todolist.repository.Repository<Todo> {
+@Component
+class TodoRepository: Repository<Todo> {
 
     override fun findById(id: String): Todo? = TodoListManager.get(id)
 
@@ -19,9 +19,15 @@ class TodoRepository: fr.ippon.codingdojo.todolist.repository.Repository<Todo> {
         return todo
     }
 
-    override fun update(todo: Todo): Todo {
-        TodoListManager.update(todo)
-        return todo
+    override fun update(todo: Todo): Todo? {
+        val new = TodoListManager.get(todo.id)
+        new?.let {
+            it.title = todo.title
+            it.message = todo.message
+            it.done = todo.done
+            TodoListManager.update(new)
+        }
+        return new
     }
 
     override fun findAll() = TodoListManager.getAll()

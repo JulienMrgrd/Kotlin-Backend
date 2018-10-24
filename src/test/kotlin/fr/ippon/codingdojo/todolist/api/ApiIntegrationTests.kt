@@ -42,8 +42,6 @@ class ApiIntegrationTests {
         Assertions.assertThat(todolist?.map { it.id }).containsAll(listOf("991", "992"))
     }
 
-    data class Todolist (val todolist: MutableList<Todo> = ArrayList())
-
     @Test
     fun find_one_todo() {
         val todo = restTemplate.getForObject("/todolist/991", Todo::class.java)
@@ -53,11 +51,35 @@ class ApiIntegrationTests {
     }
 
     @Test
+    fun find_one_not_found() {
+        val todo = restTemplate.getForObject("/todolist/99", Todo::class.java)
+
+        Assertions.assertThat(todo).isNull()
+    }
+
+    @Test
     fun create_one_todo() {
         val todo = Todo(title = "Le test", message = "Tester l'application")
         val response = restTemplate.postForEntity("/todolist", todo, Todo::class.java)
 
         Assertions.assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+    }
+
+    @Test
+    fun update_todo() {
+        val todo = Todo(id="992", title = "Nouveau titre", message = "message modifié", done = true)
+        val response = restTemplate.patchForObject("/todolist", todo, Todo::class.java)
+
+        Assertions.assertThat(response.id).isEqualTo("992")
+        Assertions.assertThat(response.title).isEqualTo("Nouveau titre")
+    }
+
+    @Test
+    fun update_not_found() {
+        val todo = Todo(id="99", title = "Nouveau titre", message = "message modifié", done = true)
+        val response = restTemplate.patchForObject("/todolist", todo, Todo::class.java)
+
+        Assertions.assertThat(response).isNull()
     }
 
     @Test

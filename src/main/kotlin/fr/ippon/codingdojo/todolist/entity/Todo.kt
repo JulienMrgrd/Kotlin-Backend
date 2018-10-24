@@ -5,9 +5,9 @@ import java.time.LocalDateTime
 import java.util.*
 
 data class Todo (
-        val id: String = UUID.randomUUID().toString(),
-        val createdAt: LocalDateTime = LocalDateTime.now(),
-        var title: String = "",
-        var message: String = "",
-        var done: Boolean = false
-): Serializable
+    override val id: String = UUID.randomUUID().toString(),
+    override val createdAt: LocalDateTime = LocalDateTime.now(),
+    override var title: String = "",
+    override var message: String = "",
+    override var done: Boolean = false
+): Entity, Serializable

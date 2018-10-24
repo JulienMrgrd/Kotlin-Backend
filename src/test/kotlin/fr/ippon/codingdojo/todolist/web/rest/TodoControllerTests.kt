@@ -68,6 +68,14 @@ class TodoControllerTests {
     }
 
     @Test
+    fun find_one_not_found() {
+        given(todoRepository.findById("111")).willReturn(null)
+
+        mvc.perform(get("/todolist/111").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound)
+    }
+
+    @Test
     fun create_one_todo() {
         val createdTodo = Todo("1", LocalDateTime.now(), "le titre", "le message", false)
 
@@ -90,7 +98,7 @@ class TodoControllerTests {
 
     @Test
     fun patch_todo() {
-        val updatedTodo = Todo("9", LocalDateTime.now(), "le titre", "nouveau message", false)
+        val updatedTodo = Todo("9", LocalDateTime.now(), "meilleur titre", "nouveau message", false)
 
         given(todoRepository.update(any())).willReturn(updatedTodo)
 
@@ -100,13 +108,27 @@ class TodoControllerTests {
                 .content("{\"id\":\"9\", \"createdAt\": \"2014-11-19T18:47:00\", \"title\":\"meilleur titre\", \"message\":\"nouveau message\", \"done\": false}")
         )
         .andExpect(status().isOk)
+        .andExpect(jsonPath("$.id", `is`("9")))
+        .andExpect(jsonPath("$.message", `is`("nouveau message")))
 
-        verify(todoRepository).save(capture(todoArgument))
+        verify(todoRepository).update(capture(todoArgument))
 
         Assertions.assertThat(todoArgument.value.id).isEqualTo("9")
         Assertions.assertThat(todoArgument.value.title).isEqualTo("meilleur titre")
         Assertions.assertThat(todoArgument.value.message).isEqualTo("nouveau message")
 
+    }
+
+    @Test
+    fun patch_ko() {
+        given(todoRepository.update(any())).willReturn(null)
+
+        mvc.perform(
+                patch("/todolist")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"id\":\"99\", \"createdAt\": \"2014-11-19T18:47:00\", \"title\":\"meilleur titre\", \"message\":\"nouveau message\", \"done\": false}")
+        )
+        .andExpect(status().isNotFound)
     }
 
     @Test
