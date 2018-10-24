@@ -1,16 +1,18 @@
 package fr.ippon.codingdojo.todolist.repository
 
-interface Repository<Entity> {
+import fr.ippon.codingdojo.todolist.entity.Entity
+
+interface Repository<E : Entity> {
 
     fun deleteByIds(ids: List<String>)
 
-    fun save(entity: Entity): Entity
+    fun save(entity: E): E
 
-    fun update(entity: Entity): Entity?
+    fun update(entity: E): E?
 
-    fun findById(id: String): Entity?
+    fun findById(id: String): E?
 
-    fun findAll(): List<Entity>
+    fun findAll(): List<E>
 
     fun deleteById(id: String)
 }

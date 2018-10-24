@@ -5,14 +5,12 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.springframework.beans.factory.annotation.Autowired
 import java.time.LocalDateTime
 
 @RunWith(JUnit4::class)
 class TodoRepositoryTests {
 
-    @Autowired
-    val todoRepository = TodoRepository()
+    private val todoRepository = TodoRepository()
 
     @Before
     fun before() {

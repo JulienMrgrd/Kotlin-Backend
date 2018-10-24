@@ -10,7 +10,7 @@ class TodoEntityTests {
 
     @Test
     fun create_new() {
-        val todo = Todo(title = "titre test", message = "message test")
+        val todo: Entity = Todo(title = "titre test", message = "message test")
 
         assert(todo.title == "titre test")
         assert(todo.message == "message test")
@@ -20,7 +20,7 @@ class TodoEntityTests {
     @Test
     fun for_mapping() {
         val d = LocalDateTime.of(2012, 8, 17, 18, 47)
-        val todo = Todo(id = "1", createdAt = d, title = "titre test", message = "message test", done = true)
+        val todo: Entity = Todo(id = "1", createdAt = d, title = "titre test", message = "message test", done = true)
 
         assert(todo.id == "1")
         assert(todo.createdAt == d)
