@@ -14,23 +14,14 @@ class TodoRepository: Repository<Todo> {
         }
     }
 
-    override fun save(todo: Todo): Todo {
-        TodoListManager.add(todo)
-        return todo
+    override fun save(todo: Todo) = TodoListManager.add(todo).let { todo }
+
+    override fun update(todo: Todo) = TodoListManager.get(todo.id)?.let {
+        TodoListManager.update(todo)
+        todo
     }
 
-    override fun update(todo: Todo): Todo? {
-        val new = TodoListManager.get(todo.id)
-        new?.let {
-            it.title = todo.title
-            it.message = todo.message
-            it.done = todo.done
-            TodoListManager.update(new)
-        }
-        return new
-    }
-
-    override fun findAll() = TodoListManager.getAll()
+    override fun findAll(): List<Todo> = TodoListManager.getAll()
 
     override fun deleteById(id: String) {
         TodoListManager.delete(id)

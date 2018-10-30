@@ -5,6 +5,7 @@ import java.io.*
 import java.util.*
 
 object TodoListManager : Manager<Todo> {
+
     private const val fileName = "todo.list"
 
     override val list: MutableMap<String, Todo> = HashMap()
@@ -20,9 +21,8 @@ object TodoListManager : Manager<Todo> {
 
     override fun get(id: String): Todo? = list[id]
 
-    override fun getAll(): List<Todo> {
-        return ArrayList(list.values)
-    }
+    override fun getAll() = ArrayList(list.values)
+
 
     override fun delete(id: String) {
         list.remove(id)

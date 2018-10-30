@@ -1,6 +1,7 @@
 package fr.ippon.codingdojo.todolist.repository
 
 import fr.ippon.codingdojo.todolist.entity.Todo
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,19 +27,19 @@ class TodoRepositoryTests {
     @Test
     fun add_todo() {
         val t = todoRepository.save(Todo(createdAt =  LocalDateTime.now(), title = "Test", message = "message test", done = false))
-        assert(t.id != null)
+        assertNotNull(t.id)
     }
 
     @Test
     fun update_todo() {
         todoRepository.update(Todo("994", LocalDateTime.of(2018, 3, 17, 18, 47), "lala", "lulu", true))
-        assert(TodoListManager.get("994")?.message.equals("lulu"))
+        assertEquals("lulu", TodoListManager.get("994")?.message)
     }
 
     @Test
     fun delete_many_todos() {
         todoRepository.deleteByIds(listOf("995", "996"))
-        assert(TodoListManager.count() == 4)
+        assertEquals(4, TodoListManager.count())
     }
 
 }

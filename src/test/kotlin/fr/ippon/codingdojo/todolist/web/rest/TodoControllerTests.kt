@@ -5,7 +5,7 @@ import com.nhaarman.mockito_kotlin.capture
 import com.nhaarman.mockito_kotlin.verify
 import fr.ippon.codingdojo.todolist.entity.Todo
 import fr.ippon.codingdojo.todolist.repository.TodoRepository
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.notNullValue
 import org.junit.Test
@@ -71,7 +71,7 @@ class TodoControllerTests {
     fun find_one_not_found() {
         given(todoRepository.findById("111")).willReturn(null)
 
-        mvc.perform(get("/todolist/111").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/todolist/111"))
                 .andExpect(status().isNotFound)
     }
 
@@ -92,8 +92,8 @@ class TodoControllerTests {
 
         verify(todoRepository).save(capture(todoArgument))
 
-        Assertions.assertThat(todoArgument.value.title).isEqualTo("le titre")
-        Assertions.assertThat(todoArgument.value.message).isEqualTo("le message")
+        assertThat(todoArgument.value.title).isEqualTo("le titre")
+        assertThat(todoArgument.value.message).isEqualTo("le message")
     }
 
     @Test
@@ -113,9 +113,9 @@ class TodoControllerTests {
 
         verify(todoRepository).update(capture(todoArgument))
 
-        Assertions.assertThat(todoArgument.value.id).isEqualTo("9")
-        Assertions.assertThat(todoArgument.value.title).isEqualTo("meilleur titre")
-        Assertions.assertThat(todoArgument.value.message).isEqualTo("nouveau message")
+        assertThat(todoArgument.value.id).isEqualTo("9")
+        assertThat(todoArgument.value.title).isEqualTo("meilleur titre")
+        assertThat(todoArgument.value.message).isEqualTo("nouveau message")
 
     }
 
